@@ -1,13 +1,8 @@
 package com.ipartek.formacion.dao.persistence;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 public class Ejemplar {
 	private int id;
-	@NotNull
-	@Size(min = 1)
-	private String nombre;
+
 	private String editorial;
 
 	private int npaginas;
@@ -21,6 +16,7 @@ public class Ejemplar {
 		setId(-1);
 		setEditorial("");
 		setNpaginas(-1);
+		setLibro(new Libro());
 	}
 
 	public int getId() {
@@ -29,14 +25,6 @@ public class Ejemplar {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public String getEditorial() {
@@ -65,8 +53,7 @@ public class Ejemplar {
 
 	@Override
 	public String toString() {
-		return "Ejemplar [id=" + id + ", nombre=" + nombre + ", editorial=" + editorial + ", npaginas=" + npaginas
-				+ ", libro=" + libro + "]";
+		return "Ejemplar [id=" + id + ", editorial=" + editorial + ", npaginas=" + npaginas + ", libro=" + libro + "]";
 	}
 
 }

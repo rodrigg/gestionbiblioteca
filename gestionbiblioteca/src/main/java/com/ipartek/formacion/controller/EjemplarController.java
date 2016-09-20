@@ -49,6 +49,7 @@ public class EjemplarController extends MultiActionController {
 	@RequestMapping(value = "/addejemplar")
 	public String addAlumno(Model model) {
 		model.addAttribute("ejemplar", new Ejemplar());
+		model.addAttribute("libros", lService.getAll());
 		return "ejemplares/ejemplar";
 	}
 
