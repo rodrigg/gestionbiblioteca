@@ -17,16 +17,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
-import com.ipartek.formacion.dao.persistence.Libro;
+import com.ipartek.formacion.dao.persistence.Ejemplar;
+import com.ipartek.formacion.service.interfaces.EjemplarService;
 import com.ipartek.formacion.service.interfaces.LibroService;
 
 @Controller
-@RequestMapping(value = "/libros")
-public class LibroController extends MultiActionController {
+@RequestMapping(value = "/ejemplares")
+public class EjemplarController extends MultiActionController {
 
-	// @Resource(name = "libroServiceImp")
+	// @Resource(name = "ejemplarServiceImp")
 	@Autowired
-	private LibroService as = null;
+	private EjemplarService as = null;
+	@Autowired
+	private LibroService lService = null;
 	private ModelAndView mav = null;
 
 	@InitBinder
@@ -36,48 +39,49 @@ public class LibroController extends MultiActionController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getAll() {
-		mav = new ModelAndView("/libros/listado");
-		List<Libro> libros = as.getAll();
-		System.out.println(libros.get(0).toString());
-		mav.addObject("listado_libros", libros);
+		mav = new ModelAndView("/ejemplares/listado");
+		List<Ejemplar> ejemplares = as.getAll();
+		System.out.println(ejemplares.get(0).toString());
+		mav.addObject("listado_ejemplares", ejemplares);
 		return mav;
 	}
 
-	@RequestMapping(value = "/addlibro")
+	@RequestMapping(value = "/addejemplar")
 	public String addAlumno(Model model) {
-		model.addAttribute("libro", new Libro());
-		return "libros/libro";
+		model.addAttribute("ejemplar", new Ejemplar());
+		return "ejemplares/ejemplar";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView getById(@PathVariable("id") int id) {
-		mav = new ModelAndView("/libros/libro");
-		Libro libro = as.getById(id);
+		mav = new ModelAndView("/ejemplares/ejemplar");
+		Ejemplar ejemplar = as.getById(id);
 		System.out.println(id);
-		mav.addObject("libro", libro);
+		mav.addObject("ejemplar", ejemplar);
 
 		return mav;
 	}
 
 	@RequestMapping(value = "/{id}", method = { RequestMethod.POST, RequestMethod.DELETE })
 	public ModelAndView delete(@PathVariable("id") int id) {
-		mav = new ModelAndView("/libros/listado");
+		mav = new ModelAndView("/ejemplars/listado");
 		as.delete(id);
 		return mav;
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveAlumno(@ModelAttribute("libro") @Valid Libro libro, BindingResult bindingResult, Model model) {
+	public String saveAlumno(@ModelAttribute("ejemplar") @Valid Ejemplar ejemplar, BindingResult bindingResult,
+			Model model) {
 		if (bindingResult.hasErrors()) {
-			logger.info("El libro tiene errores");
-			return "libros/libro";
+			logger.info("El ejemplar tiene errores");
+			return "ejemplares/ejemplar";
 		}
-		if (libro.getId() > 0) {
-			as.update(libro);
+		if (ejemplar.getId() > 0) {
+			as.update(ejemplar);
 		} else {
-			as.create(libro);
+			as.create(ejemplar);
 		}
-		return "redirect:/libros";
+		return "redirect:/ejemplares";
 	}
 
 }

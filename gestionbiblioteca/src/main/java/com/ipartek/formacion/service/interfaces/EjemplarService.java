@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.ipartek.formacion.dao.persistence.Ejemplar;
 
-public interface ModuloService {
+public interface EjemplarService {
 	public List<Ejemplar> getAll();
 
 	public Ejemplar getById(int id);
 
-	public Ejemplar update(Ejemplar modulo);
+	public Ejemplar update(Ejemplar ejemplar);
 
 	public void delete(int id);
-	
-	public Ejemplar create(Ejemplar modulo);
+
+	public Ejemplar create(Ejemplar ejemplar);
 }

@@ -28,6 +28,14 @@ public class LibroDAOImp implements LibroDAO {
 	private JdbcTemplate jdbctemplate;
 	private SimpleJdbcCall jdbcCall;
 
+	@Autowired
+	@Override
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+		this.jdbctemplate = new JdbcTemplate(dataSource);
+		this.jdbcCall = new SimpleJdbcCall(dataSource);
+	}
+
 	@Override
 	public List<Libro> getAll() {
 		List<Libro> libros = new ArrayList<Libro>();
@@ -45,7 +53,7 @@ public class LibroDAOImp implements LibroDAO {
 	@Override
 	public Libro getById(int id) {
 		Libro libro = null;
-		final String SQL = "SELECT id,titulo, autor,isbn FROM libro WHERE id = ?;";
+		final String SQL = "SELECT id,titulo, autor,isbn FROM libros WHERE id = ?;";
 		try {
 			libro = jdbctemplate.queryForObject(SQL, new Object[] { id }, new LibroMapper());
 		} catch (EmptyResultDataAccessException e) {
@@ -59,8 +67,8 @@ public class LibroDAOImp implements LibroDAO {
 	@Override
 	public Libro create(Libro libro) {
 		jdbcCall.withProcedureName("insertlibro");
-		SqlParameterSource in = new MapSqlParameterSource().addValue("nombre", libro.getTitulo())
-				.addValue("codTipolibro", 1).addValue("codPatrocinador", "a");
+		SqlParameterSource in = new MapSqlParameterSource().addValue("titulo", libro.getTitulo())
+				.addValue("autor", libro.getAutor()).addValue("isbn", libro.getIsbn());
 		Map<String, Object> out = jdbcCall.execute(in);
 		libro.setId((Integer) out.get("id_libro"));
 		return libro;
@@ -79,11 +87,4 @@ public class LibroDAOImp implements LibroDAO {
 		jdbctemplate.update(SQL, id);
 	}
 
-	@Autowired
-	@Override
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		this.jdbctemplate = new JdbcTemplate(dataSource);
-		this.jdbcCall = new SimpleJdbcCall(dataSource);
-	}
 }
