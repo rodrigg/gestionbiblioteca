@@ -30,7 +30,12 @@
 				<form:input path="npaginas" cssClass="form-control" cssErrorClass=""/>
 				<form:errors path="npaginas" cssClass="text-danger"></form:errors>
 			</div>
-			
+			 <div class="form-group">
+ 			 <form:select path="idLibro">
+   				<form:option value="-1">Selecciona el libro</form:option>
+   					<form:options items="${libros}" itemLabel="titulo" itemValue="id" />
+			</form:select>
+ 			</div>
 			<div class="form-group">
 				<a href="<c:url value='ejemplares'/>" class="btn btn-danger">ATRAS</a>
 				<c:set var="msgBoton" value="CREAR" />
@@ -40,6 +45,7 @@
 				<button type="submit" class="btn btn-success">
 					<spring:message text="${msgBoton}" />
 				</button>
+				</div>
 			<c:forEach items="${libros}" var="libro">
 				${libro.titulo }
 			</c:forEach>

@@ -63,7 +63,7 @@ public class EjemplarDAOImp implements EjemplarDAO {
 	public Ejemplar create(Ejemplar ejemplar) {
 		jdbcCall.withProcedureName("insertejemplar");
 		SqlParameterSource in = new MapSqlParameterSource().addValue("titulo", ejemplar.getEditorial())
-				.addValue("npaginas", ejemplar.getNpaginas()).addValue("libro_id", ejemplar.getLibro().getId());
+				.addValue("npaginas", ejemplar.getNpaginas()).addValue("libro_id", ejemplar.getIdLibro());
 		Map<String, Object> out = jdbcCall.execute(in);
 		ejemplar.setId((Integer) out.get("id_ejemplar"));
 		return ejemplar;
@@ -72,8 +72,8 @@ public class EjemplarDAOImp implements EjemplarDAO {
 	@Override
 	public Ejemplar update(Ejemplar ejemplar) {
 		final String SQL = "UPDATE ejemplares SET editorial = ?,npaginas=?,libro_id=? WHERE id = ?;";
-		jdbctemplate.update(SQL, new Object[] { ejemplar.getEditorial(), ejemplar.getNpaginas(),
-				ejemplar.getLibro().getId(), ejemplar.getId() });
+		jdbctemplate.update(SQL, new Object[] { ejemplar.getEditorial(), ejemplar.getNpaginas(), ejemplar.getIdLibro(),
+				ejemplar.getId() });
 		return ejemplar;
 	}
 

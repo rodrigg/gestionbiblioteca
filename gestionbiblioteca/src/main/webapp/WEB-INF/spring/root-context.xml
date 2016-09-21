@@ -21,6 +21,8 @@
 	<bean id="ejemplarDAOImp" class="com.ipartek.formacion.dao.EjemplarDAOImp">
 		<property name="dataSource" ref="mysqlDataSource" />
 	</bean>
-	
+	<bean id="usuarioDAOImp" class="com.ipartek.formacion.dao.UsuarioDAOImp">
+		<property name="dataSource" ref="mysqlDataSource" />
+	</bean>
 	
 </beans>

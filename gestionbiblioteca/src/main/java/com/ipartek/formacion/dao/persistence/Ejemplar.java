@@ -6,6 +6,7 @@ public class Ejemplar {
 	private String editorial;
 
 	private int npaginas;
+	private int idLibro;
 	private Libro libro;
 
 	/**
@@ -49,6 +50,14 @@ public class Ejemplar {
 
 	public void setLibro(Libro libro) {
 		this.libro = libro;
+	}
+
+	public int getIdLibro() {
+		return idLibro;
+	}
+
+	public void setIdLibro(int idLibro) {
+		this.idLibro = idLibro;
 	}
 
 	@Override

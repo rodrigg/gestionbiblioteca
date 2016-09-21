@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ipartek.formacion.dao.interfaces.AlumnoDAO;
+import com.ipartek.formacion.dao.interfaces.UsuarioDAO;
 import com.ipartek.formacion.dao.interfaces.LibroDAO;
 
 import com.ipartek.formacion.dao.persistence.Libro;
