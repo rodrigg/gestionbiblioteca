@@ -57,9 +57,9 @@ public class EjemplarController extends MultiActionController {
 	public ModelAndView getById(@PathVariable("id") int id) {
 		mav = new ModelAndView("/ejemplares/ejemplar");
 		Ejemplar ejemplar = as.getById(id);
-		System.out.println(id);
+		System.out.println(ejemplar.toString());
 		mav.addObject("ejemplar", ejemplar);
-
+		mav.addObject("libros", lService.getAll());
 		return mav;
 	}
 

@@ -35,7 +35,7 @@ public class UsuarioController extends MultiActionController {
 	public ModelAndView getAll() {
 		mav = new ModelAndView("/usuarios/listado");
 		List<Usuario> usuarios = as.getAll();
-		System.out.println(usuarios.get(0).toString());
+		
 		mav.addObject("listado_usuarios", usuarios);
 		return mav;
 	}
@@ -50,7 +50,7 @@ public class UsuarioController extends MultiActionController {
 	public ModelAndView getById(@PathVariable("id") int id) {
 		mav = new ModelAndView("/usuarios/usuario");
 		Usuario usuario = as.getById(id);
-		System.out.println(id);
+	
 		mav.addObject("usuario", usuario);
 
 		return mav;
@@ -64,15 +64,15 @@ public class UsuarioController extends MultiActionController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String saveAlumno(@ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, Model model) {
+	public String saveUsuario(@ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			logger.info("El libro tiene errores");
 			return "usuarios/usuario";
 		}
 		if (usuario.getId() > 0) {
-			System.out.println(usuario.toString());
+			System.out.println(usuario.toString()+"update");
 			as.update(usuario);
-		} else {
+		} else {System.out.println(usuario.toString()+"create");
 			as.create(usuario);
 		}
 		return "redirect:/usuarios";

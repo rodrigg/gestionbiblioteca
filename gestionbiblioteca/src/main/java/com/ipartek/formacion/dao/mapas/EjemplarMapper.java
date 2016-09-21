@@ -18,7 +18,7 @@ public class EjemplarMapper implements RowMapper<Ejemplar> {
 		ejemplar.setNpaginas(rs.getInt("npaginas"));
 		Libro libro = null;
 		libro = new Libro();
-		libro.setId(rs.getInt("id_libro"));
+		libro.setId(rs.getInt("libro_id"));
 		libro.setTitulo(rs.getString("titulo"));
 		libro.setAutor(rs.getString("autor"));
 		libro.setIsbn(rs.getString("isbn"));

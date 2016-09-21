@@ -34,7 +34,7 @@ public class EjemplarDAOImp implements EjemplarDAO {
 	@Override
 	public List<Ejemplar> getAll() {
 		List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
-		String sql = "SELECT e.id as id,editorial,npaginas,titulo,autor,isbn,l.id as id_libro FROM ejemplares e inner join libros l on (e.id=l.id)";
+		String sql = "SELECT e.id as id,editorial,npaginas,titulo,autor,isbn,libro_id FROM ejemplares e inner join libros l on (e.libro_id=l.id)";
 		try {
 			ejemplares = jdbctemplate.query(sql, new EjemplarMapper());
 		} catch (EmptyResultDataAccessException e) {
@@ -48,7 +48,7 @@ public class EjemplarDAOImp implements EjemplarDAO {
 	@Override
 	public Ejemplar getById(int id) {
 		Ejemplar ejemplar = null;
-		final String SQL = "SELECT e.id as id,editorial,npaginas,titulo,autor,isbn,l.id as id_libro FROM ejemplares e inner join libros l on (e.id=l.id) WHERE e.id = ?;";
+		final String SQL = "SELECT e.id as id,editorial,npaginas,titulo,autor,isbn,libro_id FROM ejemplares e inner join libros l on (e.libro_id=l.id) WHERE e.id = ?;";
 		try {
 			ejemplar = jdbctemplate.queryForObject(SQL, new Object[] { id }, new EjemplarMapper());
 		} catch (EmptyResultDataAccessException e) {
@@ -62,7 +62,7 @@ public class EjemplarDAOImp implements EjemplarDAO {
 	@Override
 	public Ejemplar create(Ejemplar ejemplar) {
 		jdbcCall.withProcedureName("insertejemplar");
-		SqlParameterSource in = new MapSqlParameterSource().addValue("titulo", ejemplar.getEditorial())
+		SqlParameterSource in = new MapSqlParameterSource().addValue("editorial", ejemplar.getEditorial())
 				.addValue("npaginas", ejemplar.getNpaginas()).addValue("libro_id", ejemplar.getIdLibro());
 		Map<String, Object> out = jdbcCall.execute(in);
 		ejemplar.setId((Integer) out.get("id_ejemplar"));

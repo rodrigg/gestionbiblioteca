@@ -38,7 +38,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	@Override
 	public List<Usuario> getAll() {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
-		final String SQL = "SELECT u.id as id,nombre,apellidos,password,fnacimiento,email,e.id as ejemplar_id,editorial,npaginas,l.id as id_libro,titulo,autor,isbn FROM usuarios u inner join ejemplares e on(u.ejemplar_id=e.id) inner join libros l on(l.id=e.libro_id)";
+		final String SQL = "SELECT u.id as id,nombre,apellidos,password,fnacimiento,email,e.id as ejemplar_id,editorial,npaginas,l.id as id_libro,titulo,autor,isbn FROM usuarios u left join ejemplares e on(u.ejemplar_id=e.id) left join libros l on(l.id=e.libro_id)";
 
 		try {
 			usuarios = jdbctemplate.query(SQL, new UsuarioMapper());
@@ -68,12 +68,14 @@ public class UsuarioDAOImp implements UsuarioDAO {
 
 	@Override
 	public Usuario create(Usuario usuario) {
+		System.out.println(usuario.toString()+"dao");
 		jdbcCall.withProcedureName("insertusuario");
 		SqlParameterSource in = new MapSqlParameterSource().addValue("nombre", usuario.getNombre())
 				.addValue("apellidos", usuario.getApellidos()).addValue("password", usuario.getPassword())
 				.addValue("fnacimiento", usuario.getFnacimiento()).addValue("email", usuario.getEmail());
 
 		Map<String, Object> out = jdbcCall.execute(in);
+		System.out.println(usuario.toString()+"despues");
 		usuario.setId((Integer) out.get("id_usuario"));
 		return usuario;
 	}
