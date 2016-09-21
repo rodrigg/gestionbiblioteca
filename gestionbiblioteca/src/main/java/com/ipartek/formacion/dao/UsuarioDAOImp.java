@@ -80,6 +80,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 
 	@Override
 	public Usuario update(Usuario usuario) {
+		System.out.println(usuario.toString() + "Dao");
 		final String SQL = "UPDATE usuarios SET nombre = ?,apellidos=?,password=?,fnacimiento=?,email=? WHERE id = ?;";
 		jdbctemplate.update(SQL, new Object[] { usuario.getNombre(), usuario.getApellidos(), usuario.getPassword(),
 				usuario.getFnacimiento(), usuario.getEmail(), usuario.getId() });

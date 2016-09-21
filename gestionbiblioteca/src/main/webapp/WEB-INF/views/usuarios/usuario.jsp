@@ -35,6 +35,14 @@
 				<form:errors path="apellidos" cssClass="text-danger"></form:errors>
 			</div>
 			<div class="form-group">
+				<form:label path="password">
+					<spring:message text="password:" />
+				</form:label>
+				<form:input path="password" cssClass="form-control" cssErrorClass=""/>
+				<form:errors path="password" cssClass="text-danger"></form:errors>
+			</div>
+			
+			<div class="form-group">
 				<form:label path="email">
 					<spring:message text="email:" />
 				</form:label>

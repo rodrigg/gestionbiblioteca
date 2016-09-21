@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,4 +55,27 @@ public class UsuarioController extends MultiActionController {
 
 		return mav;
 	}
+
+	@RequestMapping(value = "/{id}", method = { RequestMethod.POST, RequestMethod.DELETE })
+	public ModelAndView delete(@PathVariable("id") int id) {
+		mav = new ModelAndView("/libros/listado");
+		as.delete(id);
+		return mav;
+	}
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public String saveAlumno(@ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+			logger.info("El libro tiene errores");
+			return "usuarios/usuario";
+		}
+		if (usuario.getId() > 0) {
+			System.out.println(usuario.toString());
+			as.update(usuario);
+		} else {
+			as.create(usuario);
+		}
+		return "redirect:/usuarios";
+	}
+
 }
