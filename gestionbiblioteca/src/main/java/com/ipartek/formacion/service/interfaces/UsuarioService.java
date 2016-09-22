@@ -14,4 +14,8 @@ public interface UsuarioService {
 	public void delete(int id);
 
 	public Usuario create(Usuario usuario);
+
+	public void devolver(int id);
+
+	public void alquilar(Usuario usuario);
 }

@@ -45,4 +45,16 @@ public class UsuarioServiceImp implements UsuarioService {
 		return uDAO.create(usuario);
 	}
 
+	@Override
+	public void devolver(int id) {
+		uDAO.devolver(id);
+
+	}
+
+	@Override
+	public void alquilar(Usuario usuario) {
+		uDAO.alquilar(usuario);
+
+	}
+
 }

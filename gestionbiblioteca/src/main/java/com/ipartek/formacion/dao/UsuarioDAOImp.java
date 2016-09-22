@@ -54,7 +54,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	@Override
 	public Usuario getById(int id) {
 		Usuario usuario = null;
-		final String SQL = "SELECT u.id as id,nombre,apellidos,password,fnacimiento,email,e.id as ejemplar_id,editorial,npaginas,l.id as id_libro,titulo,autor,isbn FROM usuarios u inner join ejemplares e on(u.ejemplar_id=e.id) inner join libros l on(l.id=e.libro_id) WHERE u.id=?";
+		final String SQL = "SELECT u.id as id,nombre,apellidos,password,fnacimiento,email,e.id as ejemplar_id,editorial,npaginas,l.id as id_libro,titulo,autor,isbn FROM usuarios u left join ejemplares e on(u.ejemplar_id=e.id) left join libros l on(l.id=e.libro_id) WHERE u.id=?";
 
 		try {
 			usuario = jdbctemplate.queryForObject(SQL, new Object[] { id }, new UsuarioMapper());
@@ -68,21 +68,21 @@ public class UsuarioDAOImp implements UsuarioDAO {
 
 	@Override
 	public Usuario create(Usuario usuario) {
-		System.out.println(usuario.toString()+"dao");
+		System.out.println(usuario.toString() + "dao");
 		jdbcCall.withProcedureName("insertusuario");
 		SqlParameterSource in = new MapSqlParameterSource().addValue("nombre", usuario.getNombre())
 				.addValue("apellidos", usuario.getApellidos()).addValue("password", usuario.getPassword())
 				.addValue("fnacimiento", usuario.getFnacimiento()).addValue("email", usuario.getEmail());
 
 		Map<String, Object> out = jdbcCall.execute(in);
-		System.out.println(usuario.toString()+"despues");
+		System.out.println(usuario.toString() + "despues");
 		usuario.setId((Integer) out.get("id_usuario"));
 		return usuario;
 	}
 
 	@Override
 	public Usuario update(Usuario usuario) {
-		System.out.println(usuario.toString() + "Dao");
+
 		final String SQL = "UPDATE usuarios SET nombre = ?,apellidos=?,password=?,fnacimiento=?,email=? WHERE id = ?;";
 		jdbctemplate.update(SQL, new Object[] { usuario.getNombre(), usuario.getApellidos(), usuario.getPassword(),
 				usuario.getFnacimiento(), usuario.getEmail(), usuario.getId() });
@@ -92,7 +92,20 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	@Override
 	public void delete(int id) {
 		final String SQL = "DELETE FROM usuarios WHERE id = ?;";
-		jdbctemplate.update(SQL, id);
+		jdbctemplate.update(SQL, new Object[] { id });
+
+	}
+
+	@Override
+	public void devolver(int id) {
+		final String SQL = "UPDATE usuarios SET ejemplar_id=0 WHERE id = ?;";
+		jdbctemplate.update(SQL, new Object[] { id });
+	}
+
+	@Override
+	public void alquilar(Usuario usuario) {
+		final String SQL = "UPDATE usuarios SET ejemplar_id=? WHERE id = ?;";
+		jdbctemplate.update(SQL, new Object[] { usuario.getEjemplar().getId(), usuario.getId() });
 
 	}
 

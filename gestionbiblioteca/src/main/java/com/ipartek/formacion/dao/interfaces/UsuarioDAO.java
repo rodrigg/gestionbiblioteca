@@ -21,4 +21,8 @@ public interface UsuarioDAO extends DAOSetter {
 
 	public void delete(int id);
 
+	public void devolver(int id);
+
+	public void alquilar(Usuario usuario);
+
 }

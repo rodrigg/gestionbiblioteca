@@ -63,5 +63,29 @@
 
 	</div>
 </div>
-</body>
+
+<c:if test="${usuario.id > 0}">
+					
+		<c:if test="${usuario.ejemplar.id== 0}">
+		No se alquilado ejemplares al usuario	<button>Reservar</button>
+		<form method="post" action="${usuario.id }/alquilar/${ usuario.id}">
+			<button type="submit">Alquilar</button>
+		</form>		
+		</c:if>			
+	</c:if>
+	
+<c:if test="${usuario.ejemplar.id > 0}">
+
+El usuario tiene alquilado el libro <strong>${usuario.ejemplar.libro.titulo }</strong> de la editorial  <strong>${usuario.ejemplar.editorial}</strong>
+<form method="post" action="${usuario.id }/devolver">
+<input type="hidden" name="id" value="${usuario.id }">
+<button>Devolver</button>
+</form>
+</c:if>
+
+
+
+
+
+
 </html>
