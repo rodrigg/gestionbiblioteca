@@ -46,6 +46,20 @@ public class EjemplarDAOImp implements EjemplarDAO {
 	}
 
 	@Override
+	public List<Ejemplar> getEjemplaresNoAlquilados() {
+		List<Ejemplar> ejemplares = new ArrayList<Ejemplar>();
+		String SQL = "SELECT e.id as id,editorial,npaginas,titulo,autor,isbn,libro_id FROM ejemplares e INNER JOIN libros l on e.libro_id=l.id WHERE e.id not in(SELECT ejemplar_id FROM usuarios WHERE ejemplar_id!=0)";
+		try {
+			ejemplares = jdbctemplate.query(SQL, new EjemplarMapper());
+		} catch (EmptyResultDataAccessException e) {
+			ejemplares = new ArrayList<Ejemplar>();
+		} catch (Exception e) {
+
+		}
+		return ejemplares;
+	}
+
+	@Override
 	public Ejemplar getById(int id) {
 		Ejemplar ejemplar = null;
 		final String SQL = "SELECT e.id as id,editorial,npaginas,titulo,autor,isbn,libro_id FROM ejemplares e inner join libros l on (e.libro_id=l.id) WHERE e.id = ?;";

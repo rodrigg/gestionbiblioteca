@@ -67,10 +67,14 @@
 <c:if test="${usuario.id > 0}">
 					
 		<c:if test="${usuario.ejemplar.id== 0}">
-		No se alquilado ejemplares al usuario	<button>Reservar</button>
-		<form method="post" action="${usuario.id }/alquilar/${ usuario.id}">
-			<button type="submit">Alquilar</button>
-		</form>		
+		No se alquilado ejemplares al usuario	
+			<c:forEach items="${ejemplares_noalquilados }" var="ejemplar">
+			
+			<form method="post" action="${usuario.id }/alquilar/${ ejemplar.id}">
+			${ejemplar.libro.titulo }--${ejemplar.editorial }
+				<button type="submit">Alquilar</button>
+			</form>	
+		</c:forEach>
 		</c:if>			
 	</c:if>
 	

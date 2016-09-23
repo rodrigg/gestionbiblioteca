@@ -14,4 +14,6 @@ public interface EjemplarService {
 	public void delete(int id);
 
 	public Ejemplar create(Ejemplar ejemplar);
+
+	public List<Ejemplar> getEjemplaresNoAlquilados();
 }

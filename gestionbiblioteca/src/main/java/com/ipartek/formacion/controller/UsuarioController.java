@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import com.ipartek.formacion.dao.persistence.Ejemplar;
 import com.ipartek.formacion.dao.persistence.Usuario;
+import com.ipartek.formacion.service.interfaces.EjemplarService;
 import com.ipartek.formacion.service.interfaces.UsuarioService;
 
 @Controller
@@ -25,6 +26,8 @@ public class UsuarioController extends MultiActionController {
 	// @Resource(name = "usuarioServiceImp")
 	@Autowired
 	private UsuarioService as = null;
+	@Autowired
+	private EjemplarService eService;
 	private ModelAndView mav = null;
 
 	@InitBinder
@@ -51,7 +54,10 @@ public class UsuarioController extends MultiActionController {
 	public ModelAndView getById(@PathVariable("id") int id) {
 		mav = new ModelAndView("/usuarios/usuario");
 		Usuario usuario = as.getById(id);
-
+		List<Ejemplar> ejemplares = eService.getEjemplaresNoAlquilados();
+		System.out.println(ejemplares.get(0).toString());
+		mav.addObject("ejemplares_noalquilados", ejemplares);
+		System.out.println();
 		mav.addObject("usuario", usuario);
 
 		return mav;
@@ -70,7 +76,7 @@ public class UsuarioController extends MultiActionController {
 		return "redirect:/usuarios/" + id;
 	}
 
-	@RequestMapping(value = "/{id}/devolver/{id_ejemplar}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/alquilar/{id_ejemplar}", method = RequestMethod.POST)
 	public String alquilar(@PathVariable("id") int id, @PathVariable("id_ejemplar") int id_ejemplar) {
 		Usuario usuario = null;
 		usuario = new Usuario();

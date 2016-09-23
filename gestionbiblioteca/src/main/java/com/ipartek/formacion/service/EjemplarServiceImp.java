@@ -44,4 +44,11 @@ public class EjemplarServiceImp implements EjemplarService {
 		return eDao.create(ejemplar);
 	}
 
+	@Override
+	public List<Ejemplar> getEjemplaresNoAlquilados() {
+		List<Ejemplar> ejemplares = null;
+		ejemplares = eDao.getEjemplaresNoAlquilados();
+		return ejemplares;
+	}
+
 }
